@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainFragment">
+
+    <ToggleButton
+        android:id="@+id/toggle_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textOn="@string/turn_on"
+        android:textOff="@string/turn_off" />
+
+    <Button
+        android:id="@+id/visible_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/visible_button"
+        android:enabled="false" />
+
+    <Button
+        android:id="@+id/devices_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/devices_button"
+        android:enabled="false" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</LinearLayout>
