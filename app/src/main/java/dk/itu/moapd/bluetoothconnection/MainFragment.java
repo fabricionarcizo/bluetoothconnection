@@ -43,7 +43,7 @@ public class MainFragment extends Fragment {
         mDevices = new ArrayList<>();
 
         final DeviceAdapter deviceAdapter = new DeviceAdapter();
-        RecyclerView recyclerView = view.findViewById(R.id.recyclerView);
+        RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(deviceAdapter);
 
@@ -81,7 +81,7 @@ public class MainFragment extends Fragment {
                 public void onClick(View view) {
                     Intent intent = new Intent(
                             BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
-                    startActivityForResult(intent, 0);
+                    startActivity(intent);
                 }
             });
 
@@ -108,54 +108,49 @@ public class MainFragment extends Fragment {
         }
     }
 
+    private class DeviceHolder extends RecyclerView.ViewHolder {
+
+        TextView mDevice;
+
+        DeviceHolder(View view) {
+            super(view);
+            mDevice = view.findViewById(R.id.device);
+        }
+
+    }
+
     private class DeviceAdapter extends RecyclerView.Adapter<DeviceHolder> {
 
-        private List<String> mDevices;
+        private List<String> mDevices = new ArrayList<>();
 
         @NonNull
         @Override
         public DeviceHolder onCreateViewHolder(@NonNull ViewGroup parent,
                                                int viewType) {
-            LayoutInflater inflater =
-                    LayoutInflater.from(parent.getContext());
-            return new DeviceHolder(inflater, parent);
+            View layout = getLayoutInflater()
+                    .inflate(R.layout.list_paired_devices, parent, false);
+            return new DeviceHolder(layout);
         }
 
         @Override
         public void onBindViewHolder(@NonNull DeviceHolder holder,
                                      int position) {
-            if (mDevices != null && mDevices.size() > position) {
+            if (mDevices.size() > position) {
                 String device = mDevices.get(position);
-                holder.bind(device);
+                holder.mDevice.setText(device);
             } else
-                holder.bind("No device available");
+                holder.mDevice.setText(
+                        getString(R.string.unavailable_device));
         }
 
         @Override
         public int getItemCount() {
-            if (mDevices != null)
-                return mDevices.size();
-            return 0;
+            return mDevices.size();
         }
 
         void setDevices(List<String> devices) {
             mDevices = devices;
             notifyDataSetChanged();
-        }
-
-    }
-
-    private class DeviceHolder extends RecyclerView.ViewHolder {
-
-        private final TextView mDevice;
-
-        DeviceHolder(@NonNull LayoutInflater inflater, ViewGroup parent) {
-            super(inflater.inflate(R.layout.list_paired_devices, parent, false));
-            mDevice = itemView.findViewById(R.id.device);
-        }
-
-        void bind(String device) {
-            mDevice.setText(device);
         }
 
     }
